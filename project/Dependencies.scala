@@ -3,8 +3,8 @@ import sbt._
 object Dependencies {
 
   lazy val all = Seq(
-    "DAPEX" %% "dapex-messaging" % "0.2.0",
-    "thediscprog" %% "util-library" % "0.1.1",
+    "DAPEX" %% "dapex-messaging" % "0.3.0",
+    "thediscprog" %% "util-library" % "0.2.0",
     "com.github.fd4s" %% "fs2-kafka" % "3.2.0",
     "com.beachape" %% "enumeratum" % "1.7.2",
     "com.beachape" %% "enumeratum-circe" % "1.7.2",
