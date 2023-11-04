@@ -2,7 +2,7 @@ import scala.collection.Seq
 
 ThisBuild / organization := "DAPEX"
 
-ThisBuild / version := "0.2.2"
+ThisBuild / version := "0.2.3"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.13.10",
