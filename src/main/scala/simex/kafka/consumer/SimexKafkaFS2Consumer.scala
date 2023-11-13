@@ -1,20 +1,20 @@
-package dapex.kafka.consumer
+package simex.kafka.consumer
 
 import cats.effect._
 import cats.syntax.all._
-import dapex.entities.ConversionError
-import dapex.kafka.KafkaTopic
-import dapex.kafka.config.KafkaConfig
+import simex.entities.ConversionError
 import fs2.kafka._
-import dapex.messaging.DapexMessage
 import fs2.kafka.{AutoOffsetReset, ConsumerSettings, KafkaConsumer}
 import fs2._
 import org.typelevel.log4cats.Logger
+import simex.kafka.KafkaTopic
+import simex.kafka.config.KafkaConfig
+import simex.messaging.Simex
 
-class DapexKafkaFS2Consumer[F[_]: Async: Logger](
+class SimexKafkaFS2Consumer[F[_]: Async: Logger](
     kafkaConfig: KafkaConfig,
-    f: DapexMessage => F[Boolean]
-) extends DapexKafkaConsumer[F] {
+    f: Simex => F[Boolean]
+) extends SimexKafkaConsumer[F] {
 
   val consumerSettings =
     ConsumerSettings[F, String, String]
@@ -42,8 +42,8 @@ class DapexKafkaFS2Consumer[F[_]: Async: Logger](
       }
 
   private def processRecord(record: ConsumerRecord[String, String]): F[Boolean] = {
-    val msg: Either[ConversionError, DapexMessage] =
-      DapexMessage.deSerializeFromString(record.value)
+    val msg: Either[ConversionError, Simex] =
+      Simex.deSerializeFromString(record.value)
     msg.fold(
       err =>
         Logger[F].warn(s"Message could not be transformed from string: ${err.message}") *> false

@@ -1,16 +1,9 @@
-package dapex.kafka.it
+package simex.kafka.it
 
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
 import cats.implicits._
 import com.github.dockerjava.api.command.InspectContainerResponse
-import dapex.kafka.config.KafkaConfig
-import dapex.kafka.consumer.DapexKafkaConsumer
-import dapex.kafka.producer.DapexKafkaProducer
-import dapex.kafka.{KafkaConfigurator, KafkaTopic}
-import dapex.messaging.DapexMessage
-import dapex.messaging.Method.INSERT
-import dapex.test.DapexMessageFixture
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -18,6 +11,11 @@ import org.scalatest.time.{Millis, Seconds, Span}
 import org.testcontainers.containers.KafkaContainer
 import org.testcontainers.utility.DockerImageName
 import org.typelevel.log4cats.slf4j.Slf4jLogger
+import simex.kafka.{KafkaConfigurator, KafkaTopic, consumer, producer}
+import simex.kafka.config.KafkaConfig
+import simex.kafka.producer.SimexKafkaProducer
+import simex.messaging.Simex
+import simex.test.SimexTestFixture
 import thediscprog.utillibrary.caching.CachingService
 
 import scala.concurrent.duration._
@@ -27,7 +25,7 @@ class KafkaClientLibraryTest
     extends AnyFlatSpec
     with Matchers
     with ScalaFutures
-    with DapexMessageFixture {
+    with SimexTestFixture {
 
   implicit val defaultPatience =
     PatienceConfig(timeout = Span(30, Seconds), interval = Span(100, Millis))
@@ -50,7 +48,7 @@ class KafkaClientLibraryTest
     override val replication: Short = 1.toShort
   }
 
-  private val request = getMessage(INSERT)
+  private val request = authenticationRequest
 
   it should "run kafkain a container" in {
     val info: InspectContainerResponse = container.getContainerInfo
@@ -82,8 +80,8 @@ class KafkaClientLibraryTest
 
   it should "publish messages in Kafka and consume them" in {
     val kafkaConfig = getContainerConfig(container.getBootstrapServers)
-    val kafkaProducer = DapexKafkaProducer[IO](kafkaConfig)
-    val kafkaConsumer = DapexKafkaConsumer[IO](kafkaConfig, processMessageFromKafka)
+    val kafkaProducer = producer.SimexKafkaProducer[IO](kafkaConfig)
+    val kafkaConsumer = consumer.SimexKafkaConsumer[IO](kafkaConfig, processMessageFromKafka)
     val keys = (for {
       _ <- Seq.range(0, 10).traverse(i => publishToKafka(kafkaProducer, i))
       _ <- kafkaConsumer
@@ -101,12 +99,12 @@ class KafkaClientLibraryTest
     }
   }
 
-  private def processMessageFromKafka(msg: DapexMessage): IO[Boolean] =
+  private def processMessageFromKafka(msg: Simex): IO[Boolean] =
     for {
       _ <- cachingService.storeInCache(msg.client.requestId, msg)
     } yield true
 
-  private def publishToKafka(kafkaProducer: DapexKafkaProducer[IO], count: Int) = {
+  private def publishToKafka(kafkaProducer: SimexKafkaProducer[IO], count: Int) = {
     val sentMsg = request.copy(
       client = request.client.copy(requestId = s"producer-1-$count"),
       endpoint = request.endpoint.copy(resource = "service.dbwrite")

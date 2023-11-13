@@ -1,25 +1,25 @@
-package dapex.kafka.producer
+package simex.kafka.producer
 
 import cats.effect.kernel.Async
 import cats.syntax.all._
-import dapex.kafka.KafkaTopic
-import dapex.kafka.config.KafkaConfig
-import dapex.messaging.DapexMessage
 import fs2.kafka._
 import org.typelevel.log4cats.Logger
+import simex.kafka.KafkaTopic
+import simex.kafka.config.KafkaConfig
+import simex.messaging.Simex
 
-class DapexKafkaFS2Producer[F[_]: Async: Logger](kafkaConfig: KafkaConfig)
-    extends DapexKafkaProducer[F] {
+class SimexKafkaFS2Producer[F[_]: Async: Logger](kafkaConfig: KafkaConfig)
+    extends SimexKafkaProducer[F] {
 
   val producerSettings: ProducerSettings[F, String, String] =
     ProducerSettings[F, String, String]
       .withBootstrapServers(s"${kafkaConfig.bootstrapServer}:${kafkaConfig.port}")
 
   override def publishMessge(
-      msg: DapexMessage,
+      msg: Simex,
       topic: KafkaTopic
   ): F[ProducerResult[String, String]] = {
-    val str = DapexMessage.serializeToString(msg)
+    val str = Simex.serializeToString(msg)
     val record: ProducerRecord[String, String] =
       ProducerRecord(topic.topic, msg.client.requestId, str)
     val records = ProducerRecords.one(record)

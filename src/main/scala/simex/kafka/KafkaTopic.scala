@@ -1,4 +1,4 @@
-package dapex.kafka
+package simex.kafka
 
 trait KafkaTopic {
   val name: String

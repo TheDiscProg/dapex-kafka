@@ -1,4 +1,4 @@
-package dapex.kafka.config
+package simex.kafka.config
 
 import io.circe.Decoder
 import io.circe.generic.semiauto.deriveDecoder

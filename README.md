@@ -1,7 +1,7 @@
-# dapex-kafka
-DAPEX messaging using KAFKA
+# simex-kafka
+SIMEX messaging using KAFKA
 
-# Using Dapex-Kafka Library
+# Using simex-kafka Library
 See the `KafkaClientLibraryTest.scala` on how to either publish or consume from Kafka cluster.
 
 ## 1. Configuration
@@ -29,19 +29,19 @@ To create an instance of a producer, use the following:
 
 Once the `kafkaProducer` has been created, then to publish a message:
 
-`   kafkaProducer.publishMessge(dapexMessage, topic)`
+`   kafkaProducer.publishMessge(simexMessage, topic)`
 
 which has a return type of ` F[ProducerResult[String, String]]` which can be further queried for producing/publishing
 results.
 
 ## Consuming from Kafka
-To consume from Kafka topics, create an instance of `DapexKafkaConsumer`:
+To consume from Kafka topics, create an instance of `SimexKafkaConsumer`:
 
-`   val kafkaConsumer = DapexKafkaConsumer[IO](kafkaConfig, processMessageFromKafka)`
+`   val kafkaConsumer = SimexKafkaConsumer[IO](kafkaConfig, processMessageFromKafka)`
 
 The final argument is a function with the following signature:
 ```scala
-    (msg:DapexMessage) => F[Boolean]
+    (msg:Simex) => F[Boolean]
 ```
 
 The return indicates whether to acknowledge Kafka that the message was processed. A `false` return indicates that the 

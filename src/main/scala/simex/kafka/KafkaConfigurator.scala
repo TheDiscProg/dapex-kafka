@@ -1,11 +1,11 @@
-package dapex.kafka
+package simex.kafka
 
 import cats.effect.Resource
 import cats.effect.kernel.Async
 import cats.implicits._
-import dapex.kafka.config.KafkaConfig
 import fs2.kafka.{AdminClientSettings, KafkaAdminClient}
 import org.apache.kafka.clients.admin.NewTopic
+import simex.kafka.config.KafkaConfig
 
 object KafkaConfigurator {
 
