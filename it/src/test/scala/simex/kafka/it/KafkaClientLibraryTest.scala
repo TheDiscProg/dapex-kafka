@@ -107,7 +107,7 @@ class KafkaClientLibraryTest
   private def publishToKafka(kafkaProducer: SimexKafkaProducer[IO], count: Int) = {
     val sentMsg = request.copy(
       client = request.client.copy(requestId = s"producer-1-$count"),
-      endpoint = request.endpoint.copy(resource = "service.dbwrite")
+      destination = request.destination.copy(resource = "service.dbwrite")
     )
     kafkaProducer.publishMessge(sentMsg, testTopic)
   }
