@@ -1,11 +1,11 @@
-package simex.kafka
+package io.github.thediscprog.simexkafka
 
 import cats.effect.Resource
 import cats.effect.kernel.Async
 import cats.implicits._
 import fs2.kafka.{AdminClientSettings, KafkaAdminClient}
+import io.github.thediscprog.simexkafka.config.KafkaConfig
 import org.apache.kafka.clients.admin.NewTopic
-import simex.kafka.config.KafkaConfig
 
 object KafkaConfigurator {
 

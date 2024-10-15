@@ -2,30 +2,33 @@ import sbt._
 
 object Dependencies {
 
-  private lazy val simexVersion = "0.8.0"
+  private lazy val simexVersion = "0.9.2"
+  private lazy val circeVersion = "0.14.10"
+  private lazy val enumeratumVersion = "1.7.5"
+  private lazy val catsEffectVersion = "3.5.4"
+  private lazy val fs2KafkaVersion = "3.5.1"
+  private lazy val scaffeineVersion = "5.3.0"
+  private lazy val logbackClassicVersion = "1.5.9"
 
   lazy val all = Seq(
-    "simex" %% "simex-messaging" % simexVersion,
-    "thediscprog" %% "util-library" % simexVersion,
-    "com.github.fd4s" %% "fs2-kafka" % "3.2.0",
-    "com.beachape" %% "enumeratum" % "1.7.2",
-    "com.beachape" %% "enumeratum-circe" % "1.7.2",
-    "io.circe" %% "circe-core" % "0.14.5",
-    "io.circe" %% "circe-generic" % "0.14.5",
-    "io.circe" %% "circe-parser" % "0.14.5",
-    "io.circe" %% "circe-generic-extras" % "0.14.3",
-    "com.github.pureconfig" %% "pureconfig" % "0.17.4",
-    "org.typelevel" %% "cats-effect" % "3.4.8",
-    "org.typelevel" %% "log4cats-slf4j" % "2.6.0",
-    "org.scalatest" %% "scalatest" % "3.2.15" % "test",
-    "org.typelevel" %% "cats-effect-testing-scalatest" % "1.4.0" % Test,
-    "ch.qos.logback" % "logback-classic" % "1.4.11" % Test,
-    "com.github.blemale" %% "scaffeine" % "5.2.1" % Test
+    "io.github.thediscprog" %% "simex-messaging" % simexVersion,
+    "io.github.thediscprog" %% "simex-util-library" % "0.9.3",
+    "com.github.fd4s" %% "fs2-kafka" % fs2KafkaVersion,
+    "com.beachape" %% "enumeratum" % enumeratumVersion,
+    "com.beachape" %% "enumeratum-circe" % enumeratumVersion,
+    "io.circe" %% "circe-core" % circeVersion,
+    "io.circe" %% "circe-generic" % circeVersion,
+    "io.circe" %% "circe-parser" % circeVersion,
+    "org.typelevel" %% "cats-effect" % catsEffectVersion,
+    "org.typelevel" %% "log4cats-slf4j" % "2.7.0",
+    "org.scalatest" %% "scalatest" % "3.2.19" % Test,
+    "org.typelevel" %% "cats-effect-testing-scalatest" % "1.5.0" % Test,
+    "ch.qos.logback" % "logback-classic" % logbackClassicVersion % Test,
+    "com.github.blemale" %% "scaffeine" % scaffeineVersion % Test
   )
 
   lazy val it = Seq(
-    "ch.qos.logback" % "logback-classic" % "1.4.11" % Test,
-    "com.dimafeng" %% "testcontainers-scala-scalatest" % "0.41.0" % Test,
-    "org.testcontainers" % "kafka" % "1.19.1" % Test
+    "ch.qos.logback" % "logback-classic" % logbackClassicVersion % Test,
+    "org.testcontainers" % "kafka" % "1.20.2" % Test
   )
 }

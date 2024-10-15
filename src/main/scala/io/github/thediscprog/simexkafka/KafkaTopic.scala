@@ -1,4 +1,4 @@
-package simex.kafka
+package io.github.thediscprog.simexkafka
 
 trait KafkaTopic {
   val name: String

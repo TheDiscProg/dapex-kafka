@@ -1,15 +1,15 @@
-package simex.kafka.consumer
+package io.github.thediscprog.simexkafka.consumer
 
+import io.github.thediscprog.simexmessaging.messaging.Simex
+import io.github.thediscprog.simexmessaging.entities.ConversionError
+import io.github.thediscprog.simexkafka.config.KafkaConfig
+import io.github.thediscprog.simexkafka.KafkaTopic
 import cats.effect._
 import cats.syntax.all._
-import simex.entities.ConversionError
 import fs2.kafka._
 import fs2.kafka.{AutoOffsetReset, ConsumerSettings, KafkaConsumer}
 import fs2._
 import org.typelevel.log4cats.Logger
-import simex.kafka.KafkaTopic
-import simex.kafka.config.KafkaConfig
-import simex.messaging.Simex
 
 class SimexKafkaFS2Consumer[F[_]: Async: Logger](
     kafkaConfig: KafkaConfig,
@@ -50,6 +50,5 @@ class SimexKafkaFS2Consumer[F[_]: Async: Logger](
           .pure[F],
       dapex => f(dapex)
     )
-
   }
 }

@@ -1,12 +1,12 @@
-package simex.kafka.producer
+package io.github.thediscprog.simexkafka.producer
 
 import cats.effect.kernel.Async
 import cats.syntax.all._
 import fs2.kafka._
+import io.github.thediscprog.simexkafka.KafkaTopic
+import io.github.thediscprog.simexkafka.config.KafkaConfig
+import io.github.thediscprog.simexmessaging.messaging.Simex
 import org.typelevel.log4cats.Logger
-import simex.kafka.KafkaTopic
-import simex.kafka.config.KafkaConfig
-import simex.messaging.Simex
 
 class SimexKafkaFS2Producer[F[_]: Async: Logger](kafkaConfig: KafkaConfig)
     extends SimexKafkaProducer[F] {

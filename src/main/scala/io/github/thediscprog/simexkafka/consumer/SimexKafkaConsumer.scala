@@ -1,11 +1,11 @@
-package simex.kafka.consumer
+package io.github.thediscprog.simexkafka.consumer
 
 import cats.effect.kernel.Async
 import fs2.Stream
+import io.github.thediscprog.simexkafka.KafkaTopic
+import io.github.thediscprog.simexkafka.config.KafkaConfig
+import io.github.thediscprog.simexmessaging.messaging.Simex
 import org.typelevel.log4cats.Logger
-import simex.kafka.KafkaTopic
-import simex.kafka.config.KafkaConfig
-import simex.messaging.Simex
 
 trait SimexKafkaConsumer[F[_]] {
 
