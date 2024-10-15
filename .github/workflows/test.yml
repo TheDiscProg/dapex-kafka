@@ -1,14 +1,10 @@
-name: Publish Simex Kafka Handler
+name: Run Tests
 on:
   push:
-    tags:
+    branches:
       - '*'
 env:
   GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
-  SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-  SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-  PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-  PGP_SECRET_KEY: ${{ secrets.PGP_SECRET_KEY }}
 jobs:
   test:
     strategy:
@@ -28,7 +24,4 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Build and test
         shell: bash
-        run: |
-          echo "Running Tests and then publishing to Maven"
-          echo -n "$PGP_SECRET_KEY" | base64 --decode | gpg --batch --import
-          sbt clean +test +publishSigned sonatypeBundleRelease
+        run: sbt +test
