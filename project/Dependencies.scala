@@ -2,7 +2,7 @@ import sbt._
 
 object Dependencies {
 
-  private lazy val simexVersion = "0.9.2"
+  private lazy val simexVersion = "0.9.3"
   private lazy val circeVersion = "0.14.10"
   private lazy val enumeratumVersion = "1.7.5"
   private lazy val catsEffectVersion = "3.5.4"
